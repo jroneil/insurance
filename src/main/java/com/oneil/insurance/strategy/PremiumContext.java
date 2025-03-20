@@ -8,18 +8,27 @@ import lombok.extern.slf4j.Slf4j;
 @Component
 public class PremiumContext {
 
-    @Autowired
-    private HealthInsurancePremiumStrategy healthInsurancePremiumStrategy;
+   
+    private final HealthInsurancePremiumStrategy healthInsurancePremiumStrategy;
 
-    @Autowired
-    private CarInsurancePremiumStrategy carInsurancePremiumStrategy;
+    private final CarInsurancePremiumStrategy carInsurancePremiumStrategy;
 
-    @Autowired
-    private HomeInsurancePremiumStrategy homeInsurancePremiumStrategy;
+    private final HomeInsurancePremiumStrategy homeInsurancePremiumStrategy;
 
-    private PremiumCalculationStrategy premiumCalculationStrategy;
+    private  PremiumCalculationStrategy premiumCalculationStrategy;
 
-    public void setStrategy(String policyType) {
+    
+
+	public PremiumContext(HealthInsurancePremiumStrategy healthInsurancePremiumStrategy,
+			CarInsurancePremiumStrategy carInsurancePremiumStrategy,
+			HomeInsurancePremiumStrategy homeInsurancePremiumStrategy) {
+		super();
+		this.healthInsurancePremiumStrategy = healthInsurancePremiumStrategy;
+		this.carInsurancePremiumStrategy = carInsurancePremiumStrategy;
+		this.homeInsurancePremiumStrategy = homeInsurancePremiumStrategy;
+	}
+
+	public void setStrategy(String policyType) {
         if (policyType == null) {
             throw new IllegalArgumentException("Policy type cannot be null");
         }

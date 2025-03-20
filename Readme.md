@@ -50,6 +50,8 @@ The application also includes **unit tests** and **controller tests** to ensure 
 ```
 src/main/java/com/oneil/insurance/
     ├── command/              # Command Pattern implementation
+    |── config/               # Configuration
+    |── filter/               # filters
     ├── strategy/             # Strategy Pattern implementation
     ├── repository/           # Database repositories
     ├── model/                # Entity classes (Policy, Quote)
@@ -104,7 +106,11 @@ src/test/java/com/oneil/insurance/
      - Password: `password`
 
 ---
-
+4. **Access Swagger UI**
+Run your application and access the Swagger UI at:
+```
+http://localhost:8080/swagger-ui.html
+```
 ## API Endpoints
 
 ### Quotes

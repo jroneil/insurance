@@ -66,7 +66,7 @@ class PolicyControllerTest {
         doNothing().when(policyService).createPolicy(any(Policy.class), anyDouble());
 
         // Act & Assert
-        mockMvc.perform(post("/policies/create")
+        mockMvc.perform(post("/api/v1/policies/create")
                 .param("baseAmount", "1000.00")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(policy)))
@@ -88,7 +88,7 @@ class PolicyControllerTest {
         doNothing().when(policyService).updatePolicy(any(Policy.class), anyDouble());
 
         // Act & Assert
-        mockMvc.perform(put("/policies/update")
+        mockMvc.perform(put("/api/v1/policies/update")
                 .param("baseAmount", "1200")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(policy)))
@@ -103,13 +103,13 @@ class PolicyControllerTest {
         quote.setId(1L);
         quote.setPolicyType("health");
         quote.setPolicyHolder("John Doe");
-        quote.setEstimatedPremium(1200);
+        quote.setEstimatedPremium(1200.0);
         quote.setQuoteDate(LocalDate.now());
 
         when(quoteService.generateQuote(anyString(), anyString(), anyDouble())).thenReturn(quote);
 
         // Act & Assert
-        mockMvc.perform(post("/policies/quotes/generate")
+        mockMvc.perform(post("/api/v1/policies/quotes/generate")
                 .param("policyType", "health")
                 .param("policyHolder", "John Doe")
                 .param("baseAmount", "1000"))
@@ -127,13 +127,13 @@ class PolicyControllerTest {
         quote.setId(1L);
         quote.setPolicyType("health");
         quote.setPolicyHolder("John Doe");
-        quote.setEstimatedPremium(1200);
+        quote.setEstimatedPremium(1200.0);
         quote.setQuoteDate(LocalDate.now());
 
         when(quoteService.getQuoteById(anyLong())).thenReturn(quote);
 
         // Act & Assert
-        mockMvc.perform(get("/policies/quotes/{id}", 1L))
+        mockMvc.perform(get("/api/v1/policies/quotes/{id}", 1L))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(1L))
                 .andExpect(jsonPath("$.policyType").value("health"))
@@ -147,7 +147,7 @@ class PolicyControllerTest {
         when(quoteService.getQuoteById(anyLong())).thenThrow(new RuntimeException("Quote not found"));
 
         // Act & Assert
-        mockMvc.perform(get("/policies/quotes/{id}", 1L))
+        mockMvc.perform(get("/api/v1/policies/quotes/{id}", 1L))
                 .andExpect(status().isNotFound())
                 .andExpect(content().string("Quote not found"));
     }

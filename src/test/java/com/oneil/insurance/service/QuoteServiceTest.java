@@ -46,7 +46,7 @@ class QuoteServiceTest {
         Quote expectedQuote = new Quote();
         expectedQuote.setPolicyType("health");
         expectedQuote.setPolicyHolder("John Doe");
-        expectedQuote.setEstimatedPremium(1200);
+        expectedQuote.setEstimatedPremium(1200.00);
         expectedQuote.setQuoteDate(LocalDate.now());
 
         when(premiumContext.calculatePremium(1000)).thenReturn(1200.0);
@@ -80,7 +80,7 @@ class QuoteServiceTest {
         quote.setId(1L);
         quote.setPolicyType("health");
         quote.setPolicyHolder("John Doe");
-        quote.setEstimatedPremium(1200);
+        quote.setEstimatedPremium(1200.00);
         quote.setQuoteDate(LocalDate.now());
 
         when(quoteRepository.findById(1L)).thenReturn(Optional.of(quote));

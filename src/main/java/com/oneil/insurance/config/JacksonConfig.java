@@ -1,4 +1,4 @@
-package com.oneil.insurance;
+package com.oneil.insurance.config;
 
 
 import com.fasterxml.jackson.databind.ObjectMapper;

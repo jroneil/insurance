@@ -3,22 +3,22 @@ package com.oneil.insurance.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
 
 import com.oneil.insurance.model.Policy;
 import com.oneil.insurance.model.Quote;
 import com.oneil.insurance.service.PolicyService;
 import com.oneil.insurance.service.QuoteService;
 
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Positive;
+import lombok.extern.slf4j.Slf4j;
+@Slf4j
 @RestController
-@RequestMapping("/policies")
+@RequestMapping("/api/v1/policies")
+@Validated
 public class PolicyController {
 
     @Autowired
@@ -28,7 +28,7 @@ public class PolicyController {
     private QuoteService quoteService;
 
     @PostMapping("/create")
-    public String createPolicy(@RequestBody Policy policy, @RequestParam("baseAmount") double baseAmount) {
+    public String createPolicy(@Valid @RequestBody Policy policy, @RequestParam("baseAmount") double baseAmount) {
         policyService.createPolicy(policy, baseAmount);
         return "Policy created successfully!";
     }
@@ -40,8 +40,16 @@ public class PolicyController {
     }
 
     @PostMapping("/quotes/generate")
-    public Quote generateQuote(@RequestParam("policyType") String policyType, @RequestParam("policyHolder") String policyHolder, @RequestParam("baseAmount") double baseAmount) {
-        return quoteService.generateQuote(policyType, policyHolder, baseAmount);
+    public ResponseEntity<?> generateQuote(
+            @RequestParam("policyType") @NotBlank String policyType,
+            @RequestParam("policyHolder") @NotBlank String policyHolder,
+            @RequestParam("baseAmount") @Positive double baseAmount) {
+
+        if (policyType.isBlank() || policyHolder.isBlank()||baseAmount<0) {
+            return ResponseEntity.badRequest().body("policyType and policyHolder must not be blank");
+        }
+
+        return ResponseEntity.ok(quoteService.generateQuote(policyType, policyHolder, baseAmount));
     }
 
     @GetMapping("/quotes/{id}")
