@@ -106,8 +106,9 @@ src/test/java/com/oneil/insurance/
      - Password: `password`
 
 ---
-4. **Access Swagger UI**
+### Access Swagger UI
 Run your application and access the Swagger UI at:
+
 ```
 http://localhost:8080/swagger-ui.html
 ```
