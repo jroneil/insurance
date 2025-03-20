@@ -16,12 +16,10 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.oneil.insurance.model.Policy;
-import com.oneil.insurance.model.Quote;
 import com.oneil.insurance.service.PolicyService;
 import com.oneil.insurance.service.QuoteService;
 

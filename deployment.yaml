@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: insurance-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: insurance-app
+  template:
+    metadata:
+      labels:
+        app: insurance-app
+    spec:
+      containers:
+        - name: insurance-app
+          image: your-dockerhub-username/insurance-0.0.1-SNAPSHOT
+          ports:
+            - containerPort: 8080
